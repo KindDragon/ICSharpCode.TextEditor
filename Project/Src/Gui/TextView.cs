@@ -359,9 +359,8 @@ namespace ICSharpCode.TextEditor
 		/// <param name="length">The length.</param>
 		/// <param name="markers">All markers that have been found.</param>
 		/// <returns>The Brush or null when no marker was found.</returns>
-		Brush GetMarkerBrushAt(int offset, int length, ref Color foreColor, out IList<TextMarker> markers)
+		Brush GetMarkerBrush(IList<TextMarker> markers, ref Color foreColor)
 		{
-			markers = Document.MarkerStrategy.GetMarkers(offset, length);
 			foreach (TextMarker marker in markers) {
 				if (marker.TextMarkerType == TextMarkerType.SolidBlock) {
 					if (marker.OverrideForeColor) {
@@ -412,7 +411,6 @@ namespace ICSharpCode.TextEditor
 				int currentWordEndOffset = currentWordOffset + currentWord.Length - 1;
 				TextWordType currentWordType = currentWord.Type;
 				
-				IList<TextMarker> markers;
 				Color wordForeColor;
 				if (currentWordType == TextWordType.Space)
 					wordForeColor = spaceMarkerColor.Color;
@@ -420,7 +418,9 @@ namespace ICSharpCode.TextEditor
 					wordForeColor = tabMarkerColor.Color;
 				else
 					wordForeColor = currentWord.Color;
-				Brush wordBackBrush = GetMarkerBrushAt(currentLine.Offset + currentWordOffset, currentWord.Length, ref wordForeColor, out markers);
+
+                IList<TextMarker> markers = Document.MarkerStrategy.GetMarkers(currentLine.Offset + currentWordOffset, currentWord.Length);
+				Brush wordBackBrush = GetMarkerBrush(markers, ref wordForeColor);
 				
 				// It is possible that we have to split the current word because a marker/the selection begins/ends inside it
 				if (currentWord.Length > 1) {
