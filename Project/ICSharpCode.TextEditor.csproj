@@ -226,6 +226,7 @@
     <Compile Include="Src\Document\HighlightingStrategy\SpanStack.cs" />
     <Compile Include="Src\Util\WeakCollection.cs" />
     <EmbeddedResource Include="Resources\Patch-Mode.xshd" />
+    <EmbeddedResource Include="Resources\Python-Mode.xshd" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
